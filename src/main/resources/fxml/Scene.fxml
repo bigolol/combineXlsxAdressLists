@@ -11,15 +11,39 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="lhsTableView" layoutX="23.0" layoutY="201.0" prefHeight="266.0" prefWidth="301.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onChooseLhsTable" text="choose Table" />
-                  <Button layoutX="14.0" layoutY="49.0" mnemonicParsing="false" onAction="#onCombineTables" prefHeight="26.0" prefWidth="137.0" text="combine Tables" />
+                  <SplitPane dividerPositions="0.1152073732718894" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onChooseLhsTable" text="choose Table" />
+                              <Button layoutX="122.0" layoutY="1.0" mnemonicParsing="false" onAction="#onCombineTables" prefHeight="26.0" prefWidth="137.0" text="combine Tables" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TableView fx:id="lhsTableView" prefHeight="266.0" prefWidth="301.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="rhsTableView" layoutX="50.0" layoutY="218.0" prefHeight="266.0" prefWidth="299.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onChooseRhsTable" text="choose Table" />
+                  <SplitPane dividerPositions="0.11290322580645161" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#onChooseRhsTable" text="choose Table" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TableView fx:id="rhsTableView" prefHeight="266.0" prefWidth="299.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
                </children>
             </AnchorPane>
         </items>
