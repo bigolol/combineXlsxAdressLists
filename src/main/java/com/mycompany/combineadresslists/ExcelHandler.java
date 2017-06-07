@@ -5,14 +5,27 @@
  */
 package com.mycompany.combineadresslists;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringPropertyBase;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xmlbeans.impl.common.Levenshtein;
 
 /**
@@ -20,6 +33,50 @@ import org.apache.xmlbeans.impl.common.Levenshtein;
  * @author holgerklein
  */
 public class ExcelHandler {
+
+    static Workbook letUserChooseWB(Stage stage) throws IOException, InvalidFormatException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("please choose adress list");
+        File f = fileChooser.showOpenDialog(stage);
+        return new XSSFWorkbook(f);
+    }
+
+    static Workbook transformAdresslistToWorkbook(Adresslist adresslist) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet createdSheet = workbook.createSheet();
+        Row keyRow = createdSheet.createRow(0);
+        int i = 0;
+        for (String k : adresslist.getKeys()) {
+            keyRow.createCell(i).setCellValue(k);
+            ++i;
+        }
+
+        int pos = 1;
+        for (List<String> list : adresslist.getEntries()) {
+            Row currentRow = createdSheet.createRow(pos);
+            int cellPos = 0;
+            for (String toEnter : list) {
+                currentRow.createCell(cellPos).setCellValue(toEnter);
+                ++cellPos;
+            }
+            ++pos;
+        }
+        return workbook;
+    }
+
+    static void displayInTableView(Adresslist adresslist, TableView<List<String>> tv) {
+        tv.getColumns().clear();
+        for (String k : adresslist.getKeys()) {
+            TableColumn<List<String>, String> column = new TableColumn(k);
+            column.setCellValueFactory((param) -> {
+                List<String> list = (List<String>) param.getValue();
+                int pos = adresslist.getKeys().indexOf(k);
+                return new ReadOnlyObjectWrapper<>(list.get(pos));
+            });
+            tv.getColumns().add(column);
+        }
+        tv.getItems().addAll(adresslist.getEntries());
+    }
 
     static Adresslist combineAdressLists(Adresslist a1, Adresslist a2) {
         List<String> keys1 = a1.getKeys();
@@ -95,7 +152,7 @@ public class ExcelHandler {
                 continue;
             }
             List<String> created = new ArrayList<>();
-            for(int col : keyXIndeces) {
+            for (int col : keyXIndeces) {
                 try {
                     String strValueFromCell = getStrValueFromCell(r.getCell(col));
                     created.add(strValueFromCell);
@@ -156,11 +213,11 @@ public class ExcelHandler {
     }
 
     private static float getClosestVal(String w) {
-        String[] possKeys = {"name", "fist name", "adress", "street", "mail", "e-mail", "email"};
+        String[] possKeys = {"name", "fist name", "adress", "street", "mail", "e-mail", "email", "phone", "tel"};
 
         float max = 0;
         for (String k : possKeys) {
-            float wordSimilarity = calcWordSimilarity(k, w);
+            float wordSimilarity = calcWordSimilarity(k, w.toLowerCase());
             if (wordSimilarity > max) {
                 max = wordSimilarity;
             }

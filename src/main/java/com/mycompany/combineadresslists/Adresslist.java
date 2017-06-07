@@ -27,7 +27,7 @@ public class Adresslist {
     private void getEmailIndex() {
         float max = 0;
         for (String k : keys) {
-            float sim = 1.0F / Levenshtein.distance("email", k);
+            float sim = 1.0F / Levenshtein.distance("email", k.toLowerCase());
             if (sim > max) {
                 max = sim;
                 emailIndex++;
@@ -50,20 +50,26 @@ public class Adresslist {
             String entryMail = newEntry.get(emailIndex);
             for (List<String> list : entries) {
                 String existingEmail = list.get(emailIndex);
-                if(existingEmail == null || entryMail == null) continue;
+                if (existingEmail == null || entryMail == null) {
+                    continue;
+                }
                 if (existingEmail.equals(entryMail)) {
-                    int pos = 0;
-                    for (String newField : newEntry) {
-                        if (list.get(pos).isEmpty()) {
-                            list.set(pos, newField);
-                        }
-                        pos++;
-                    }
+                    mergeEntries(newEntry, list);
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    private void mergeEntries(List<String> newEntry, List<String> oldEntry) {
+        int pos = 0;
+        for (String newField : newEntry) {
+            if (oldEntry.get(pos).isEmpty()) {
+                oldEntry.set(pos, newField);
+            }
+            pos++;
+        }
     }
 
     public List<String> getKeys() {

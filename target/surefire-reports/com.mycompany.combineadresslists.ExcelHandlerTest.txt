@@ -1,9 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.mycompany.combineadresslists.ExcelHandlerTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 15.042 sec <<< FAILURE! - in com.mycompany.combineadresslists.ExcelHandlerTest
-testCombineTwoAdressLists(com.mycompany.combineadresslists.ExcelHandlerTest)  Time elapsed: 14.923 sec  <<< ERROR!
-java.lang.NullPointerException: null
-	at com.mycompany.combineadresslists.ExcelHandler.combineAdressLists(ExcelHandler.java:48)
-	at com.mycompany.combineadresslists.ExcelHandlerTest.testCombineTwoAdressLists(ExcelHandlerTest.java:62)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.677 sec - in com.mycompany.combineadresslists.ExcelHandlerTest
